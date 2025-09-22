@@ -1,0 +1,48 @@
+@model IEnumerable<BlContainerSystem.Models.BL>
+
+@{
+    ViewData["Title"] = "Relatório de BLs e Containers";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+
+@if (!Model.Any())
+{
+    <p>Nenhum BL encontrado para exibir no relatório.</p>
+}
+else
+{
+    foreach (var bl in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <strong>BL Número:</strong> @bl.Numero
+            </div>
+            <div class="card-body">
+                <p><strong>Consignee:</strong> @bl.Consignee</p>
+                <p><strong>Navio:</strong> @bl.Navio</p>
+
+                <h5 class="mt-4">Containers Associados:</h5>
+                @if (bl.Containers.Any())
+                {
+                    <ul class="list-group">
+                        @foreach (var container in bl.Containers)
+                        {
+                            <li class="list-group-item">
+                                <strong>Número:</strong> @container.Numero |
+                                <strong>Tipo:</strong> @container.Tipo |
+                                <strong>Tamanho:</strong> @((int)container.Tamanho)
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">Nenhum container associado a este BL.</p>
+                }
+            </div>
+        </div>
+    }
+}
